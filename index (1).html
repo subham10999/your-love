@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Universe: Prachi ❤️</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --pink-main: #ff4b72;
+            --pink-soft: #ff8fa3;
+            --purple-deep: #2b1055;
+            --purple-night: #0f0c20;
+            --gold-glow: #ffd700;
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --text-light: #ffffff;
+            --text-sub: #ffd1dc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none !important; /* Custom Heart Cursor */
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--purple-night), var(--purple-deep), #591a73, #a21a5b);
+            background-size: 400% 400%;
+            animation: bgShift 20s ease infinite;
+            color: var(--text-light);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        @keyframes bgShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Custom Cursor Follower */
+        #cursor-heart {
+            position: fixed;
+            pointer-events: none;
+            z-index: 99999;
+            font-size: 20px;
+            transform: translate(-50%, -50%);
+            transition: transform 0.05s linear;
+            filter: drop-shadow(0 0 8px var(--pink-main));
+        }
+
+        /* Particle Canvas Overlay */
+        #fxCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Cinematic Opening Overlay */
+        #intro-overlay {
+            position: fixed;
+            inset: 0;
+            background: #000000;
+            z-index: 9000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            transition: opacity 1.5s ease;
+        }
+
+        .moon {
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle at 35% 35%, #ffffff, #ffeaa7, #fdcb6e);
+            border-radius: 50%;
+            box-shadow: 0 0 50px rgba(255, 234, 167, 0.8);
+            margin-bottom: 30px;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        #typewriter-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--text-sub);
+            min-height: 80px;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        .hero-title-reveal {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4.5rem;
+            color: var(--gold-glow);
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.8), 0 0 60px var(--pink-main);
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .hero-title-reveal.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .start-btn {
+            margin-top: 30px;
+            padding: 14px 36px;
+            border-radius: 50px;
+            border: 2px solid var(--gold-glow);
+            background: linear-gradient(45deg, var(--pink-main), var(--purple-deep));
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            box-shadow: 0 0 25px rgba(255, 75, 114, 0.6);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s ease, transform 0.3s ease;
+        }
+
+        .start-btn.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .start-btn:hover {
+            transform: scale(1.08);
+        }
+
+        /* Main Container */
+        .main-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 20;
+        }
+
+        /* Hero Header */
+        header {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid var(--glass-border);
+            padding: 6px 20px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            color: var(--gold-glow);
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        h1.main-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.2rem;
+            line-height: 1.2;
+            text-shadow: 0 0 20px rgba(255, 75, 114, 0.7);
+            margin-bottom: 10px;
+        }
+
+        /* Glassmorphism Card Style */
+        .glass-box {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .glass-box:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 215, 0, 0.4);
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--gold-glow);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Envelope / Letter Section */
+        .envelope-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .envelope {
+            background: linear-gradient(135deg, rgba(255, 117, 140, 0.25), rgba(162, 26, 91, 0.35));
+            border: 1px solid rgba(255,255,255,0.25);
+            border-radius: 16px;
+            padding: 20px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.4s ease;
+        }
+
+        .envelope-header {
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .letter-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.8s cubic-bezier(0, 1, 0, 1), padding 0.4s ease;
+            background: rgba(15, 12, 32, 0.6);
+            border-radius: 0 0 16px 16px;
+            padding: 0 25px;
+        }
+
+        .envelope-container.open .letter-content {
+            max-height: 2000px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-top: none;
+        }
+
+        .letter-text {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--text-sub);
+            white-space: pre-line;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 20px;
+            border-left: 2px dashed var(--pink-soft);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 25px;
+            padding-left: 20px;
+        }
+
+        .timeline-item::before {
+            content: '🌸';
+            position: absolute;
+            left: -32px;
+            top: 0;
+            font-size: 1.2rem;
+        }
+
+        .timeline-date {
+            font-size: 0.85rem;
+            color: var(--gold-glow);
+            font-weight: 600;
+        }
+
+        .timeline-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 4px 0;
+        }
+
+        /* Interactive Love Meter */
+        .meter-container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .big-heart-btn {
+            font-size: 4rem;
+            background: none;
+            border: none;
+            filter: drop-shadow(0 0 15px var(--pink-main));
+            animation: pulse 1.5s infinite alternate;
+            transition: transform 0.2s;
+        }
+
+        .big-heart-btn:active {
+            transform: scale(0.85);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.15); }
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0 10px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--pink-soft), var(--pink-main), var(--gold-glow));
+            transition: width 0.3s ease;
+        }
+
+        /* 100 Reasons Deck */
+        .reasons-deck {
+            perspective: 1000px;
+            min-height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .reason-card {
+            width: 100%;
+            max-width: 450px;
+            height: 150px;
+            background: linear-gradient(135deg, rgba(255, 75, 114, 0.3), rgba(43, 16, 85, 0.6));
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 500;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            transition: transform 0.5s ease;
+        }
+
+        /* Chat Bubbles */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .bubble {
+            max-width: 80%;
+            padding: 12px 18px;
+            border-radius: 18px;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .bubble.me {
+            align-self: flex-end;
+            background: #007aff;
+            color: #fff;
+            border-bottom-right-radius: 4px;
+        }
+
+        .bubble.prachi {
+            align-self: flex-start;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border-bottom-left-radius: 4px;
+        }
+
+        /* Surprise Button */
+        .surprise-wrapper {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .glow-btn {
+            padding: 16px 32px;
+            border-radius: 50px;
+            background: linear-gradient(45deg, #ff007f, #7928ca);
+            border: none;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            box-shadow: 0 0 30px rgba(255, 0, 127, 0.6);
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            0% { box-shadow: 0 0 15px rgba(255, 0, 127, 0.5); }
+            100% { box-shadow: 0 0 35px rgba(255, 0, 127, 0.9), 0 0 50px var(--gold-glow); }
+        }
+
+        /* Polaroid Gallery */
+        .polaroid-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .polaroid {
+            background: #fff;
+            padding: 12px 12px 25px 12px;
+            border-radius: 4px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            transform: rotate(-3deg);
+            transition: transform 0.3s ease;
+            width: 200px;
+            text-align: center;
+            color: #333;
+        }
+
+        .polaroid:nth-child(even) {
+            transform: rotate(4deg);
+        }
+
+        .polaroid:hover {
+            transform: scale(1.08) rotate(0deg);
+            z-index: 30;
+        }
+
+        .polaroid-img-placeholder {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+        }
+
+        .polaroid-caption {
+            font-family: 'Caveat', cursive;
+            font-size: 1.3rem;
+            margin-top: 10px;
+            font-weight: 700;
+        }
+
+        /* Stick Figures Animation */
+        .dream-canvas-container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        #stickCanvas {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            max-width: 100%;
+        }
+
+        /* Audio Player Bar */
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            padding: 10px 18px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 8000;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        }
+
+        .music-btn {
+            background: var(--pink-main);
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        /* Toast Compliments */
+        .toast-compliment {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background: rgba(255, 75, 114, 0.9);
+            color: #fff;
+            padding: 10px 24px;
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            font-size: 0.95rem;
+            z-index: 10000;
+            transition: transform 0.5s ease;
+        }
+
+        .toast-compliment.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        @media (max-width: 600px) {
+            h1.main-title { font-size: 2.2rem; }
+            .hero-title-reveal { font-size: 3.2rem; }
+            .glass-box { padding: 20px; }
+            .bubble { max-width: 90%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Heart Cursor -->
+    <div id="cursor-heart">❤️</div>
+
+    <!-- FX Canvas Layer -->
+    <canvas id="fxCanvas"></canvas>
+
+    <!-- Floating Audio Player -->
+    <div class="music-player">
+        <button class="music-btn" id="audioToggleBtn" onclick="toggleAudio()">▶</button>
+        <span style="font-size: 0.85rem; color: var(--text-sub);" id="songLabel">Love Song 🎵</span>
+        <!-- Custom Audio Element -->
+        <audio id="bgAudio" loop>
+            <source src="music/love-song.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <!-- Toast Compliments -->
+    <div class="toast-compliment" id="toastMsg">You are so pretty,no no wildy dengirous  Prachi! ✨</div>
+
+    <!-- Cinematic Opening Scene Overlay -->
+    <div id="intro-overlay">
+        <div class="moon"></div>
+        <div id="typewriter-text"></div>
+        <div class="hero-title-reveal" id="heroName"> Priye PRACHI ❤️</div>
+        <button class="start-btn" id="startBtn" onclick="startExperience()">yaha click karo putri ❤️</button>
+    </div>
+
+    <!-- Main Website Content -->
+    <div class="main-wrapper">
+
+        <!-- Hero Header -->
+        <header>
+            <div class="hero-badge">Girlfriend's Day Special</div>
+            <h1 class="main-title">To My Universe, Prachi 💖</h1>
+            <p style="color: var(--text-sub); font-style: italic;">Tap each box below to unlock every piece of my heart 💌</p>
+        </header>
+
+        <!-- Section 1: Letter Chapters in Animated Boxes -->
+        <div class="glass-box">
+            <div class="section-title">💌 Messages From My Heart</div>
+            
+            <div id="envelopesList">
+                <!-- Javascript will inject letter cards dynamically -->
+            </div>
+        </div>
+
+        <!-- Section 2: Cute Memories Timeline -->
+        <div class="glass-box">
+            <div class="section-title">🌸 Our Precious Timeline</div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">Coaching Days</div>
+                    <div class="timeline-title">😷 First Impression & N95 Mask</div>
+                    <p style="font-size:0.9rem; color:var(--text-sub);">Your obsession with that N95 mask... sitting behind you in class, completely mesmerized.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Classroom Mischief</div>
+                    <div class="timeline-title">🎒 The Bag Incident</div>
+                    <p style="font-size:0.9rem; color:var(--text-sub);">Knocking your bag down repeatedly just so you'd turn around and I'd get to look into your eyes.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">10th Class Memories</div>
+                    <div class="timeline-title">💇 Back Neck Hair & Secret Touches</div>
+                    <p style="font-size:0.9rem; color:var(--text-sub);">Watching you tuck your hair behind your ears, softly touching your hair from behind without you noticing.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Everyday Moments</div>
+                    <div class="timeline-title">u remember i used to share my maths rs agerwal book with u in thoses momnets its feel like iam sharing my heart with u but after some days u purchased your own book i feel so hurt at that time but look now u shared your heart with the same person who used to share books heheh  </div>
+                    <p style="font-size:0.9rem; color:var(--text-sub);"> Whenever I think about those moments I laugh so much like a pagal person"</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Forever</div>
+                    <div class="timeline-title">💍 Future Wifey</div>
+                    <p style="font-size:0.9rem; color:var(--text-sub);"> ya iam writing these things becuase I am manifesting all those things That's the reason I wrote  these so when after some you open this web page then you can see I already knew that one day all this thing will happen with and so yeah I love you so much 
+                      Stealing fries, arguing over the remote, and growing old together.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 3: Interactive Love Meter -->
+        <div class="glass-box meter-container">
+            <div class="section-title" style="justify-content: center;">💓 Love Overflow Meter</div>
+            <p style="font-size: 0.9rem; color: var(--text-sub);">Click the heart repeatedly to test my love level for you!</p>
+            <br>
+            <button class="big-heart-btn" onclick="boostLoveMeter()">💖</button>
+            <div class="progress-bar-bg">
+                <div class="progress-fill" id="meterFill"></div>
+            </div>
+            <div id="meterStatus" style="font-weight: 600; font-size: 1.2rem; color: var(--gold-glow);">0%</div>
+        </div>
+
+        <!-- Section 4: 100 Reasons Deck -->
+        <div class="glass-box" style="text-align: center;">
+            <div class="section-title" style="justify-content: center;">✨ Reasons Why I Love You</div>
+            <p style="font-size: 0.85rem; color: var(--text-sub); margin-bottom: 15px;">Click to shuffle through 100 reasons!</p>
+            <div class="reasons-deck" onclick="nextReason()">
+                <div class="reason-card" id="reasonCard">
+                    Tap to reveal reason #1 ❤️
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 5: Cute Chat Banter -->
+        <div class="glass-box">
+            <div class="section-title">💬 Our Typical Chats</div>
+            <div class="chat-container">
+                <div class="bubble me">Miss you... 🥺❤️</div>
+                <div class="bubble prachi">thamba aai 😂❤️</div>
+                <div class="bubble me">ha ha aram se aao  👀</div>
+                <div class="bubble prachi">haa aagyi heheh😳</div>
+                <div class="bubble me">waah mai ye keh raha tha ki i miss soo much  💘</div>
+                <div class="bubble prachi">thamba dadi❤️</div>
+                <div class="bubble me">radhe radhe good night
+                    i know u are sleeping write now so sleep well tata bbye byee and i loves uuu   😎❤️</div>
+            </div>
+        </div>
+
+        <!-- Section 6: Surprise Button -->
+        <div class="glass-box surprise-wrapper">
+            <div class="section-title" style="justify-content: center;">🎁 Secret Corner</div>
+            <p style="margin-bottom: 20px; color: var(--text-sub);">Warning: Highly dangerous levels of cuteness ahead.</p>
+            <button class="glow-btn" onclick="triggerSurprise()">Don't Click Me 🙈</button>
+        </div>
+
+        <!-- Section 7: Polaroid Photo Gallery -->
+        <div class="glass-box">
+            <div class="section-title" style="justify-content: center;">📸 sorry just for security reason i am not adding your picture here so just assume hehe  </div>
+            <div class="polaroid-grid">
+                <div class="polaroid">
+                    <div class="polaroid-img-placeholder">🥰</div>
+                    <div class="polaroid-caption">My Favorite Smile is always your devil laugh </div>
+                </div>
+                <div class="polaroid">
+                    <div class="polaroid-img-placeholder">🧸</div>
+                    <div class="polaroid-caption">here its your wildy  pic with bikhare baaal </div>
+                </div>
+                <div class="polaroid">
+                    <div class="polaroid-img-placeholder">🌅</div>
+                    <div class="polaroid-caption">and here its our wedding pic  </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 8: Future Dreams Animation -->
+        <div class="glass-box dream-canvas-container">
+            <div class="section-title" style="justify-content: center;">🌅 Our Sunset Dream</div>
+            <canvas id="stickCanvas" width="400" height="200"></canvas>
+            <p style="margin-top:10px; font-weight:600; color:var(--gold-glow);"> ha mera ek aisa dream hai 
+              i want to dance with u on a beech jaha koi na ho bs tum aur mai aur payara sa sunset 
+              tumhara hath pakad ke mai tumko ghuma ke fek du heheh  just kidding  
+              ha ak dream to ye bhi hai ki mai hum dono khule aasaman ke nichai romantic  chixen kare and u know  me know what i want to say hehhe❤️</p>
+        </div>
+
+        <!-- Ending Section -->
+        <div class="glass-box" style="text-align: center; padding: 50px 20px; background: linear-gradient(135deg, rgba(255,75,114,0.3), rgba(15,12,32,0.8));">
+            <h2 style="font-family: 'Dancing Script', cursive; font-size: 3.5rem; color: var(--gold-glow); margin-bottom: 10px;">Forever Yours</h2>
+            <p style="font-size: 1.3rem; font-weight: 600;">Subham ❤️</p>
+            <p style="font-size: 0.9rem; color: var(--text-sub); margin-top: 5px;">(Your Pagala & Your Paglet 🫶🫵😁🤭)</p>
+        </div>
+
+    </div>
+
+    <script>
+        /* -------------------------------------------------------------
+           1. CUSTOM CURSOR & CANVAS PARTICLES (Hearts, Petals, Sparkles)
+        ------------------------------------------------------------- */
+        const cursor = document.getElementById('cursor-heart');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        const canvas = document.getElementById('fxCanvas');
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        const particles = [];
+        const particleTypes = ['🌸', '❤️', '✨', '💖', '🦋'];
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * width;
+                this.y = -20;
+                this.size = Math.random() * 15 + 10;
+                this.speedY = Math.random() * 1.5 + 0.8;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.symbol = particleTypes[Math.floor(Math.random() * particleTypes.length)];
+                this.opacity = Math.random() * 0.7 + 0.3;
+                this.rotation = Math.random() * 360;
+                this.rotSpeed = Math.random() * 2 - 1;
+            }
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX + Math.sin(this.y * 0.01);
+                this.rotation += this.rotSpeed;
+                if (this.y > height + 20) this.reset();
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation * Math.PI / 180);
+                ctx.globalAlpha = this.opacity;
+                ctx.font = `${this.size}px serif`;
+                ctx.fillText(this.symbol, 0, 0);
+                ctx.restore();
+            }
+        }
+
+        for (let i = 0; i < 35; i++) particles.push(new Particle());
+
+        function animateFX() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animateFX);
+        }
+        animateFX();
+
+        /* -------------------------------------------------------------
+           2. TYPEWRITER INTRO SEQUENCE
+        ------------------------------------------------------------- */
+        const introLines = [
+            "Someone has been waiting a long time to tell you something...",
+            "His heart belongs to only one girl in this entire world...",
+            "Her name is..."
+        ];
+        
+        let lineIdx = 0;
+        let charIdx = 0;
+        const typeEl = document.getElementById('typewriter-text');
+
+        function typeNextChar() {
+            if (lineIdx < introLines.length) {
+                if (charIdx < introLines[lineIdx].length) {
+                    typeEl.textContent += introLines[lineIdx].charAt(charIdx);
+                    charIdx++;
+                    setTimeout(typeNextChar, 50);
+                } else {
+                    setTimeout(() => {
+                        typeEl.textContent = '';
+                        charIdx = 0;
+                        lineIdx++;
+                        typeNextChar();
+                    }, 1500);
+                }
+            } else {
+                document.getElementById('heroName').classList.add('show');
+                setTimeout(() => {
+                    document.getElementById('startBtn').classList.add('show');
+                }, 1000);
+            }
+        }
+        window.onload = () => { setTimeout(typeNextChar, 800); };
+
+        function startExperience() {
+            const overlay = document.getElementById('intro-overlay');
+            overlay.style.opacity = '0';
+            setTimeout(() => overlay.style.display = 'none', 1500);
+            toggleAudio(true);
+        }
+
+        /* -------------------------------------------------------------
+           3. AUDIO PLAYER
+        ------------------------------------------------------------- */
+        const audio = document.getElementById('bgAudio');
+        const audioBtn = document.getElementById('audioToggleBtn');
+        let isPlaying = false;
+
+        function toggleAudio(forcePlay = false) {
+            if (!isPlaying || forcePlay) {
+                audio.play().then(() => {
+                    isPlaying = true;
+                    audioBtn.textContent = '❚❚';
+                }).catch(() => {
+                    console.log('Audio playback user interaction needed');
+                });
+            } else {
+                audio.pause();
+                isPlaying = false;
+                audioBtn.textContent = '▶';
+            }
+        }
+
+        /* -------------------------------------------------------------
+           4. LETTER MESSAGES IN BOXES (DYNAMIC INJECTION)
+        ------------------------------------------------------------- */
+        const rawMessages = [
+            {
+                title: "💌 To My Beautiful Priye / Kittu",
+                text: `Happy Girlfriend's Day 💖... or should I say... Happy "You're-not-just-my-girlfriend" Day! 😌💕✨
+
+Because honestly... calling you just my girlfriend feels incomplete. 🥹❤️
+Ha wahi to yaar....u know...u aree my .....👽
+You're my best friend 🤗💞
+You're my sakhi 🫶❤️
+You're my safe place 🏡🤍
+You're my biggest blessing 🌸🙏
+You're my favorite person 😍💖
+You're my wildy person 😍🤭
+And yes... you're also my future wifey 👰🏻❤️✨`
+            },
+            {
+                title: "🌹 Admiration & Thank You",
+                text: `Sometimes I still can't believe that the girl I used to admire from afar is now the one I get to call mine. 🥹❤️ If someone had told the old me that one day you'd love me back, I would've smiled... 😊 and then probably said, " 😂🤣 Aisa ho ho nahi sakta "Stop joking!...
+
+Thank you for coming into my life. 🌹❤️ 👽`
+            },
+            {
+                title: "👀 Unfair Beauty & Distraction",
+                text: `You know what's really unfair? 🤭
+How can one person have such beautiful eyes? 👀✨❤️
+Whenever I look into them, it feels like they're having a conversation with my heart 💓 without saying a single word. 🥹
+
+And your hair... 🌸 I don't know what magic you hide in them. ✨💕
+Every time they fall on your face, I completely forget what I was about to say. 😵‍💫❤️
+
+If someone ever asks me what distraction looks like... 😂 I'll just show them a picture of you. 📸❤️..I mean not real distraction....you are my .. motivation🫵💞..ha but jab tum soo kar uthati Ho tab UN bikhre balon mein tum mujhe 🤭😍full distract kr deti ho 🤭 👽😘..in those situations after seeing u i forgot everything and wanna kiss you badly 👽😍kyu ki haa us waqt u look soooo 🤭👽😍cutuuu..`
+            },
+            {
+                title: "☕ Wallet Secret & Missing You",
+                text: `You have no idea how many little things remind me of you. 🥹💕
+A song... 🎶
+A cup of tea... ☕
+The evening sky... 🌅
+Random reels... 📱😂
+Even silly memes... 🤣
+My first thought is always... "Prachi ko ye bhejna hai." ❤️📲  🤣
+
+You know....
+My wallet..ha because in my wallet i used to carry your hairs band 💞. whenever I miss you 🫵 then I smell those hair band because they still carry your hair smell 😭
+
+Do you know what my biggest talent is? 🤔😂
+Missing you... 🥺❤️
+Even five minutes after we've finished talking. 😭💖`
+            },
+            {
+                title: "📱 Chat Scrolling & Food Stealing",
+                text: `Sometimes I open our chat 💬 for absolutely no reason...
+Read old messages... 📖❤️
+Smile like an idiot... 😊😂
+Then close it... 🙈
+Only to open it again after two minutes. 🤦🏻‍♂️😂❤️
+
+You know what's funny? 🤭
+Whenever I imagine us after marriage... 💍❤️ I don't imagine expensive cars 🚗 or a huge house. 🏠
+I imagine you stealing food from my plate 🍕🍟 even after saying, "Mujhe nahi chahiye." 😂❤️
+I imagine us arguing over the TV remote. 📺🤣
+I imagine you pretending to be angry 😤 just so I have to say sorry a hundred times. 🙇🏻‍♂️❤️
+I imagine us laughing so much 😂🤣 that our stomachs hurt. 🤭💕`
+            },
+            {
+                title: "🧸 Teddy Bear Angry Face & Promises",
+                text: `I also imagine you saying... "Main gussa hoon, mujhse baat mat karo." 😤❤️
+And then getting even more angry because I actually stopped talking. 😂😭❤️
+
+Let's be honest... 😌 You'll never win an argument against me... 😏
+Because the moment you make that cute face... 🥺💕
+I'll surrender immediately. 🏳️😂❤️
+
+I imagine growing old with you... 👵🏻👴🏻❤️ where our hair turns white... 💖 but my heart still skips a beat 💓 every time you smile. 😊❤️
+Are waah ye upar wali line to rimes kr gyi 🤣`
+            },
+            {
+                title: "🛡️ Girlfriend Duties & Overtime Job",
+                text: `I don't just want to be the person who says "I love you." ❤️
+I want to be the person who makes you feel loved 🤗❤️ on your worst days. 🌧️
+The one who listens to your silence. 😭
+Tumari sari dil ki batein i know u are soo bad when it comes to explain your feelings....u know am good in reading eye's just like our first kiss... 🤣🤭
+
+I just wanna be ...
+The one who celebrates every small victory with you. 🎉❤️
+The one who protects your smile. 😊🛡️❤️
+
+And I also promise one more thing... 🤞❤️
+Whenever you're sad... 😔 I'll become the world's most embarrassing comedian 🤡😂 if that's what it takes to see you smile again. 😊❤️
+Even if my jokes are terrible... 😂🙈 You'll still have to laugh... 🤣❤️
+Because that's one of your girlfriend duties. 😌💕😂
+
+The one who holds your hand 🤝❤️ and reminds you... "We're a team. Always." 💪❤️`
+            },
+            {
+                title: "👸🏻 Prettiest Girl & Overtime Love",
+                text: `And let me tell you one secret... 🤫❤️
+No matter how beautiful anyone in this world is... 🌍✨
+For me... you'll always be the prettiest girl. 👸🏻❤️
+(Yes... even when you're angry. 😤 Although your angry face is honestly very cute. 😜❤️) Yaa and when u behave angry i just wann kiss u . because in those moments u look soo hot cutu..🤭😍
+
+Actually... 🤭 Your angry face has only one problem... 😂 It's impossible to take you seriously. 🤣❤️
+You look less like an wildly angry queen 👑😤 And more like an adorable teddy bear 🧸❤️ trying to act dangerous. 😂🤭💖
+(Please don't hit me after reading this. 🏃🏻‍♂️😭😂)
+
+I know we'll tease each other. 😝❤️ We'll fight over silly things. 😂
+You'll probably say... "Tum bahut irritating ho." 😤❤️
+And I'll proudly reply... "Haan... lekin tumhare hi hoon." 😎❤️😂
+
+If loving you were a full-time job... 💼❤️ I'd happily work overtime every single day. ⏰❤️ No weekends. 🚫📅 No holidays. 🚫🏖️ No salary needed. 💸❌ Just one payment... Your smile. 😊❤️`
+            },
+            {
+                title: "🤝 Our Story & Coaching Confessions",
+                text: `I don't want a perfect love story. 📖❤️ I want our love story. 💕
+The one with silly fights... 😂 Random selfies... 🤳❤️ Late-night conversations... 🌙💬 Stealing fries from each other's plates... 🍟😂 Making fun of each other... 😜 Saying "I miss you" 🥺❤️ even after talking for hours...
+And creating thousands of memories 📸✨ that we'll laugh about years from now. ❤️
+
+Promise me one thing... 🤞❤️ No matter what life brings... Good days ☀️ Bad days 🌧️ Misunderstandings 💔 Success 🎉 Failures 😔
+We'll always choose each other. 🤝❤️
+Because love isn't about never fighting. ❤️ It's about never giving up on each other. 💖♾️
+
+Prachi... ❤️ Thank you for making my world brighter. 🌞❤️ Thank you for trusting me. 😭 Thank you for being the reason behind so many of my smiles. 😊💕
+You are my girlfriend. ❤️ You are my sakhi. 🫶 You are my peace. 🫶✨ You are my happiness. 😊😸 You are my home. 🏡❤️
+And if God is kind enough... 🙏❤️ I know he is because as u know I'm his fav child sooo 🫶 One day you'll officially become my wife. 👰🏻💍❤️`
+            },
+            {
+                title: "🏫 Classroom Nostalgia & Final Love",
+                text: `And one last confession... 🤫❤️
+If I ever stare at you for too long... 👀❤️ I'm not being weird. 😂
+I'm just wondering how I got so lucky 🍀❤️ that someone as beautiful 🌹, kind 😭 funny 😂, and amazing ✨ as you chose me....ha sometimes if I stare in your eyes for a long then just kiss me because in those moments I want to kiss u badly 😸🫶👽
+
+You know... I still look at you the same way I did the first time... 🥹❤️ Coaching time ..u and your obsession with n95 mask 😷.still I remember everything little things about u... Puri class bs tumhare pichhe baith ke  kabhi Tumhari bag ko baar baar girata ..bs esliye ki jab bhi tum Apna bag uthane ke liy piche muro mai tumhari akhon mein dekh paaun....aur pata hai kabhi kabhi tooo ....galti se tum mere hathon ko touch kr deti thi  bag uthane waqt 🤣😁.... 
+
+U know why I'm obsessed with you back neck hair.. because puri 10th class maine bs wahi dekha tha .. tumhare baloon ko kaise baar baar tum apni lat ko apne kaan ke piche krti ho 😁🤭😍.. aur pata hai mai tumhari baloon se Khelta tha tumhare pichhe baith ke slow touch krta tha so that tumko pata na chale 🤣🤭😍
+
+Ye sb yaad kr ke ... now, I smile even more 😊 because I know you're not just the girl I admire...
+You're the girl I love. ❤️♾️
+
+Until then... 🌸 I'll keep loving you a little more every single day. ❤️📅
+Happy Girlfriend's Day, my love. 💖🌹😘
+
+Forever Yours, ❤️♾️ pagala .... subham 
+And this Paglet 🫶🫵😁🤭`
+            }
+        ];
+
+        const container = document.getElementById('envelopesList');
+        rawMessages.forEach((msg, idx) => {
+            const env = document.createElement('div');
+            env.className = 'envelope-container';
+            env.innerHTML = `
+                <div class="envelope" onclick="toggleEnvelope(this.parentElement)">
+                    <div class="envelope-header">
+                        <span>✉️</span>
+                        <span>${msg.title}</span>
+                    </div>
+                    <span style="font-size:0.9rem; color:var(--gold-glow);">Open 💖</span>
+                </div>
+                <div class="letter-content">
+                    <div class="letter-text">${msg.text}</div>
+                </div>
+            `;
+            container.appendChild(env);
+        });
+
+        function toggleEnvelope(el) {
+            el.classList.toggle('open');
+            confetti({ particleCount: 25, spread: 60, origin: { y: 0.7 } });
+        }
+
+        /* -------------------------------------------------------------
+           5. LOVE METER LOGIC
+        ------------------------------------------------------------- */
+        let loveVal = 0;
+        function boostLoveMeter() {
+            if (loveVal < 100) {
+                loveVal += 15;
+                if (loveVal > 100) loveVal = 100;
+                document.getElementById('meterFill').style.width = loveVal + '%';
+                document.getElementById('meterStatus').textContent = loveVal + '%';
+            } else {
+                document.getElementById('meterStatus').innerHTML = "<span style='color:#ff0055;'>ERROR ❤️ Love Overflow!</span>";
+                confetti({ particleCount: 150, spread: 100, origin: { y: 0.6 } });
+            }
+        }
+
+        /* -------------------------------------------------------------
+           6. 100 REASONS SHUFFLE
+        ------------------------------------------------------------- */
+        const reasonsList = [
+            "etna marunga na tumko soory but i dont love u because i have any reasons thik hai gussa  nahi karo aaj girlfriend day hai  ok click here again tab tab mai koi reason sochta hu  ",
+            "Your mindset inspires me to become a better man every single day. 🌟",
+            "How you try to act angry like a dangerous teddy bear.",
+            "Because you are my Sakhi, Best Friend, and Future Wifey!.",
+            "The way you tuck your hair behind your ear.",
+            "💍 I love you because you're you. ❤️.",
+            "🌙I love the way you think. Even your smallest thoughts make me want to listen forever..",
+            "Your laugh that cures my worst days.",
+            "How cute you look even when you're mad at me.",
+            " the truth is i dont have reason  i love u because my soul feel divine with u priye "
+        ];
+        let reasonIdx = 0;
+        function nextReason() {
+            reasonIdx = (reasonIdx + 1) % reasonsList.length;
+            const card = document.getElementById('reasonCard');
+            card.style.transform = 'rotateY(90deg)';
+            setTimeout(() => {
+                card.textContent = `#${reasonIdx + 1}: ${reasonsList[reasonIdx]}`;
+                card.style.transform = 'rotateY(0deg)';
+            }, 250);
+        }
+
+        /* -------------------------------------------------------------
+           7. SURPRISE BUTTON EXPLO
+        ------------------------------------------------------------- */
+        function triggerSurprise() {
+            confetti({ particleCount: 300, spread: 150, startVelocity: 40 });
+            alert("I knew you'd click 😂❤️ I love you so much, Prachi!");
+        }
+
+        /* -------------------------------------------------------------
+           8. STICK FIGURE SUNSET ANIMATION
+        ------------------------------------------------------------- */
+        const sCanvas = document.getElementById('stickCanvas');
+        const sCtx = sCanvas.getContext('2d');
+        let stickX = 50;
+
+        function drawStickFigures() {
+            sCtx.clearRect(0, 0, sCanvas.width, sCanvas.height);
+            
+            // Sunset Sun
+            sCtx.beginPath();
+            sCtx.arc(200, 150, 40, 0, Math.PI * 2);
+            sCtx.fillStyle = '#ff758c';
+            sCtx.fill();
+
+            // Ground line
+            sCtx.beginPath();
+            sCtx.moveTo(0, 180);
+            sCtx.lineTo(400, 180);
+            sCtx.strokeStyle = '#ffd1dc';
+            sCtx.lineWidth = 2;
+            sCtx.stroke();
+
+            // Subham stick figure
+            sCtx.beginPath();
+            sCtx.arc(stickX, 130, 10, 0, Math.PI * 2); // head
+            sCtx.moveTo(stickX, 140); sCtx.lineTo(stickX, 165); // body
+            sCtx.lineTo(stickX - 8, 180); // leg 1
+            sCtx.moveTo(stickX, 165); sCtx.lineTo(stickX + 8, 180); // leg 2
+            sCtx.moveTo(stickX, 148); sCtx.lineTo(stickX + 12, 155); // holding hand arm
+            sCtx.strokeStyle = '#ffffff';
+            sCtx.stroke();
+
+            // Prachi stick figure
+            let pX = stickX + 20;
+            sCtx.beginPath();
+            sCtx.arc(pX, 133, 9, 0, Math.PI * 2); // head
+            sCtx.moveTo(pX, 142); sCtx.lineTo(pX, 165); // body
+            sCtx.lineTo(pX - 6, 180); // leg 1
+            sCtx.moveTo(pX, 165); sCtx.lineTo(pX + 6, 180); // leg 2
+            sCtx.moveTo(pX, 148); sCtx.lineTo(pX - 8, 155); // holding hand arm
+            sCtx.strokeStyle = '#ff8fa3';
+            sCtx.stroke();
+
+            stickX += 0.5;
+            if (stickX > 320) stickX = 50;
+
+            requestAnimationFrame(drawStickFigures);
+        }
+        drawStickFigures();
+
+        /* -------------------------------------------------------------
+           9. PERIODIC COMPLIMENTS
+        ------------------------------------------------------------- */
+        const compliments = [
+            "Prachi, you are the prettiest girl in the world! 👸🏻",
+            "Did you smile today? Your smile is Subham's favorite! 😊",
+            "Remember: You are loved overtime with zero weekends off! 💼❤️",
+            "Your eyes are talking to my heart right now... 👀✨"
+        ];
+        setInterval(() => {
+            const toast = document.getElementById('toastMsg');
+            toast.textContent = compliments[Math.floor(Math.random() * compliments.length)];
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 4000);
+        }, 12000);
+    </script>
+</body>
+</html>
